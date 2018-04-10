@@ -1,0 +1,152 @@
+// first of course react!
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactHighcharts from 'react-highcharts';
+import GenericParameterDisplay from '../displaycomponents/GenericParameterDisplay.js';
+
+class LineChart extends GenericParameterDisplay {
+  constructor (props) {
+    super(props);
+
+    const self = this;
+
+    // this object gets update with the data from the pod
+    this.latestValue = {};
+    this.startTime = (new Date()).getTime();
+
+    this.defaultValue = {
+      stale: false,
+      value: 0,
+      units: '',
+      startTime: (new Date()).getTime()
+    };
+
+    this.dataTimer = setInterval(function () {
+      var currentTime = (new Date()).getTime(); // current time
+      var series = self.chart.series;
+
+      if (self.chart && series) {
+        for (var i = 0; i < series.length; i++) {
+          let shift = series[i].data.length > self.props.totalPoints;
+          let latestValue = self.latestValue[series[i].name];
+
+          // Update the highchart with real parameter data.
+          series[i].addPoint([currentTime, latestValue.value], false, shift, false);
+
+          // Chart background: rgba(255,0,0,0.5) (transparent red) if stale, no color if not.
+          self.chart.chartBackground.css({
+            color: latestValue.stale === true ? 'rgba(255,0,0,0.5)' : 'rgba(0,0,0,0)'
+          });
+        }
+        self.chart.redraw();
+      } else {
+        console.log('No chart');
+      }
+    }, this.props.updateRate || 250);
+
+    // this is the Highcharts config object that defines the series, render options etc
+    this.config = {
+      title: {
+        text: this.props.title
+      },
+      chart: {
+        width: this.props.width || null,
+        height: this.props.height || null,
+        animation: false
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+        title: {
+          text: this.props.xAxisLabel
+        },
+        // type: 'datetime',
+        tickPixelInterval: 150,
+        labels: {
+          formatter: function () {
+            return (this.value - self.startTime) / 1000;
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: this.props.yAxisLabel
+        }
+      },
+      plotOptions: {
+        series: {
+          marker: {
+            enabled: false,
+            symbol: 'circle',
+            radius: 2,
+            states: {
+              hover: {
+                enabled: true
+              }
+            }
+          }
+        }
+      },
+      // create series array from the parameters
+      series: this.props.parameters.map(function (parametername) {
+        return {
+          name: parametername,
+          data: []
+        };
+      })
+    };
+
+    // sets up the StreamingPage manager for each parameter we want to display
+    for (var i = 0; i < this.props.parameters.length; i++) {
+      (function (index) {
+        self.latestValue[self.props.parameters[index]] = {
+          stale: false,
+          value: 0,
+          units: ''
+        };
+        self.props.StreamingPageManager.RequestParameterWithCallback(self.props.parameters[index], function (data) {
+          self.dataCallback(data, index);
+        });
+      })(i);
+    }
+  }
+
+  componentDidMount () {
+    const self = this;
+    self.chart = self.refs[self.props.id + '_chart'].getChart();
+  }
+
+  componentWillUnmount () {
+    const self = this;
+    clearInterval(self.dataTimer);
+  }
+
+  dataCallback (parameterData, i) {
+    // update the latestValues object with values from the pod
+    if (this._isMounted) {
+      this.latestValue[parameterData.Name].value = parameterData.Value;
+      this.latestValue[parameterData.Name].stale = parameterData.IsStale;
+      this.latestValue[parameterData.Name].units = parameterData.Units;
+    }
+  }
+
+  render () {
+    return (
+      <ReactHighcharts
+          config={this.config}
+          ref={this.props.id + '_chart'} />
+    );
+  }
+}
+
+LineChart.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  xAxisLabel: PropTypes.string.isRequired,
+  yAxisLabel: PropTypes.string.isRequired,
+  parameters: PropTypes.array.isRequired,
+  totalPoints: PropTypes.number.isRequired,
+  updateRate: PropTypes.number
+};
+export default LineChart;

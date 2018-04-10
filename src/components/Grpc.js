@@ -1,0 +1,83 @@
+import React, { Component } from 'react';
+import StreamingPageManager from './../StreamingPageManager';
+import createSocket from '../shared/socket';
+import TextInput from './displaycomponents/TextInput';
+import ConnectionStatusDisplay from './displaycomponents/ConnectionStatusDisplay';
+import GenericParameterLabel from './displaycomponents/GenericParameterLabel.js';
+let socket = createSocket();
+
+class Grpc extends Component {
+  constructor (props) {
+    super(props);
+    this.render = this.render;
+
+    this.state = {
+      streamManager: new StreamingPageManager(),
+      serverAddress: ''
+    };
+
+    this.labels = [
+      {label: 'GRPC Server Status', value: `GrpcServerStatus`, hex: 'false'},
+      {label: 'GRPC Server Current Endpoint', value: `GrpcServerEndPoint`, hex: 'false'}
+    ];
+  }
+
+  componentDidMount () {
+    var _this = this;
+    this._isMounted = true;
+  }
+  componentWillUnmount () {
+    this._isMounted = false;
+  }
+
+  serverAddressHandler (changeEvent) {
+    this.setState({
+      serverAddress: changeEvent.currentTarget.value
+    });
+  }
+  connectServer (e) {
+    e.preventDefault();
+    socket.emit('Grpc:Connect', {Address: this.state.serverAddress});
+  }
+
+  startStreaming (e) {
+    e.preventDefault();
+    socket.emit('Grpc:StreamPackets');
+  }
+  render () {
+    let _this = this;
+    // let borderStyle = {border: '2px solid black', borderRadius: '10px', padding: '10px', width: '50%'};
+
+    return (
+      <div>
+        <h2>GroundStation Backend Connection</h2>
+        <div className="row">
+          <div className="col-sm-5">
+            <h3 className="section-title">Server Status</h3>
+            <div className="row" key='labels grpc server status'>
+              <label>{this.labels[0].label}</label>
+              <ConnectionStatusDisplay
+                StreamingPageManager={_this.state.streamManager}
+                parameter={this.labels[0].value} hex={this.labels[0].hex}/>
+              <GenericParameterLabel
+                StreamingPageManager={_this.state.streamManager}
+                parameter={this.labels[0].value}/>
+              <label>{this.labels[1].label}</label>
+              <GenericParameterLabel
+                StreamingPageManager={_this.state.streamManager}
+                parameter={this.labels[1].value}/>
+              <TextInput placeHolder={'server address'} onChange={_this.serverAddressHandler.bind(_this)}/>
+              <button className="btn btn-success" onClick={this.connectServer.bind(this)} style={{margin: 10}}>Connect</button><br />
+            </div>
+            <h3 className="section-title">Server Control</h3>
+            <div className="row">
+              <button className="btn btn-success" onClick={this.startStreaming.bind(this)} style={{margin: 10}}>Start Streaming</button><br />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default Grpc;

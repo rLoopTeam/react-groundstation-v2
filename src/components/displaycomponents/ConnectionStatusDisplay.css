@@ -1,0 +1,27 @@
+.dot {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px
+}
+
+.Offline {
+    background-color: #FF0000;
+}
+
+.Connected {
+    background-color: #00b951;
+}
+
+.Connecting {
+    background-color: #d29900;
+}
+
+.statusText {
+    flex: 1;
+}
+
+.Connection-status-display{
+    display: flex;
+}

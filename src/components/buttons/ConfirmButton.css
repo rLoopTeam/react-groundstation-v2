@@ -1,0 +1,27 @@
+.clicked-status-wait {
+	/*background: repeating-linear-gradient( 45deg, #ad7337, #ad7337 10px, #cca379 10px, #cca379 20px );*/
+    background-size: 150% 100%;
+	background: repeating-linear-gradient(-45deg, #ad7337, #ad7337 25px, #cca379 25px, #cca379 51px);
+    border-color: #cca379;
+    animation: 2s scroll-background infinite linear;
+}
+
+.clicked-status-ready,
+.clicked-status-ready:focus {
+  background-size: 150% 100%;
+	background: repeating-linear-gradient(-45deg, #449044, #449044 25px, #4CA64C 25px, #4CA64C 51px);
+  border-color: #449044;
+  animation: 2s scroll-background infinite linear;
+  font-size: 0;
+}
+
+.clicked-status-ready:after {
+  content: 'Confirm?';
+  font-size: 14px;
+}
+
+@keyframes scroll-background {
+  100% {
+    background-position:200px 0px;
+  }
+}

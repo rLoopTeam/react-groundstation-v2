@@ -1,0 +1,108 @@
+
+body {
+  margin-top: 60px !important;
+  margin-bottom: 100px !important;
+}
+
+.Overview-content {
+  text-align: left;
+}
+
+.margin-bottom-40px{
+  margin-bottom: 40px !important;
+}
+
+.margin-top-50px{
+  margin-top: 50px !important;
+}
+
+.margin-none {
+  margin: 0;
+}
+
+.height-300 {
+  height: 300px;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.section * {
+  display: block;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.logging-field {
+  width: 100%;
+  min-height: 20em;
+}
+
+.col-xs-1_5 {
+    width: 12.433333%;
+    float: left;
+    font-size: 11px;
+    border-right: 1px solid #aaa;
+}
+
+.no-right-border{
+    border-right: none !important;
+}
+
+.section-title {
+  border-bottom: 1px solid black;
+  padding-bottom: 4px;
+  text-align: center;
+}
+
+.test-results td {
+    border: 1px solid black;
+    padding: 2px;
+}
+
+.test-result-passed {
+    background-color: lightgreen;
+}
+
+.test-result-pending {
+    background-color: lightgray;
+}
+
+.test-result-failed {
+    background-color: lightcoral;
+}
+
+/* Bootstrap 4 future classes. */
+
+.d-block {
+  display: block;
+}
+
+.d-inline {
+  display: inline;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+/* Buttons */
+.buttonpad button {
+  margin-right: 5px;
+}
+
+/* Modifiers */
+.d-bold {
+  font-weight: bold;
+}
