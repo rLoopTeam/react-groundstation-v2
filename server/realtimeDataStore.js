@@ -1,4 +1,4 @@
-var events = require('events');
+const events = require('events');
 const util = require('util');
 
 class RealTimeDataStore {

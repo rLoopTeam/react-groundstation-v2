@@ -557,8 +557,15 @@ module.exports = function (io, room, podCommands, commConfig, config, romIDScann
 
       'Grpc:StreamPackets':() => {
         podCommands.GrpcStreamPackets();
-      }
+      },
 
+      'Backend:StartLogger':() => {
+        podCommands.BackendLoggerControl(true);
+      },
+
+      'Backend:StopLogger': () => {
+        podCommands.BackendLoggerControl(false);
+      }
     };
 
     for (const event in websocket.events) {

@@ -44,6 +44,18 @@ module.exports = {
       console.error(error);
     })*/
   },
+
+  enableLogger: function (client,bool) {
+    try{
+      const call = client.enableBool({check:bool},function (err,response) {
+        if(err){
+          console.log("ERROR LOG ENABLE" + err);
+        }
+      })
+    }catch (err){
+
+    }
+  },
   ping: function(client,callback){
     try{
       const call = client.ping({}, function (err,response){

@@ -36,9 +36,9 @@ function makeCommandPacket (PacketType, block1, block2, block3, block4) {
 }
 
 function sendPacket (sequence, type, payload, port) {
-  var testPacket = makeSafetyUDP(sequence, type, payload);
-  var packetBuf = new Buffer(testPacket);
-  var client = dgram.createSocket({type: 'udp4', reuseAddr: true});
+  const testPacket = makeSafetyUDP(sequence, type, payload);
+  const packetBuf = new Buffer(testPacket);
+  const client = dgram.createSocket({type: 'udp4', reuseAddr: true});
   client.bind();
   client.on('listening', function () {
     client.setBroadcast(true);

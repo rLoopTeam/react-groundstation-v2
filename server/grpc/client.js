@@ -59,6 +59,12 @@ class GrpcClient {
     }
   }
 
+  enableLogger(bool){
+    if(this.isConnected()){
+      impl.enableLogger(client,bool);
+    }
+  }
+
   sendServerStatus(status){
     let data0 = {
       ParameterName: 'GrpcServerEndPoint',
@@ -74,7 +80,7 @@ class GrpcClient {
     }
 
     console.log("sending server info");
-    let dataArray = [data0,data1];
+    const dataArray = [data0,data1];
     process.send({Command: "serverInfo", Data:dataArray});
     //process.send({Command: "serverInfo", Data:data0});
     //process.send({Command: "serverInfo", Data:data1});
@@ -125,6 +131,6 @@ class GrpcClient {
   }
 }
 
-let _newClient = new GrpcClient();
+let newClient = new GrpcClient();
 
-module.exports = _newClient;
+module.exports = newClient;
