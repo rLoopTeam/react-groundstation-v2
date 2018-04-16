@@ -555,6 +555,10 @@ module.exports = function (grpc) {
     grpc.send({Command:"transmitPodCommand",Data:data})
   }
 
+  function BackendLoggerControl(bool) {
+    grpc.send({Command:"loggerControl", Data:bool})
+  }
+
   return {
     GS_Heartbeat,
     Pwr_Heartbeat,
@@ -683,6 +687,8 @@ module.exports = function (grpc) {
 
     GrpcSetServer,
     GrpcStreamPackets,
+
+    BackendLoggerControl,
 
     FCUGenPodCommand
   };

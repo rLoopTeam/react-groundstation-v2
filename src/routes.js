@@ -28,8 +28,8 @@ import Cooling from './components/Cooling.js';
 import StateMachine from './components/StateMachine.js';
 import LandingGear from './components/LandingGear.js';
 import TrackDb from './components/trackdb.js';
-import Simulator from './components/Simulator';
-import Grpc from './components/Grpc';
+import Simulator from './components/SimControl';
+import ServerControl from './components/ServerControl';
 
 const APP_ROUTES = (
   <Route path="/" component={MainLayout}>
@@ -65,7 +65,7 @@ const APP_ROUTES = (
     <Route path="landinggear" component={LandingGear} />
     <Route path="trackdb" component={TrackDb} />
     <Route path="Simulator" component={Simulator} />
-    <Route path="Grpc" component={Grpc} />
+    <Route path="Backend" component={ServerControl} />
   </Route>
 );
 

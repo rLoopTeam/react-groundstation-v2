@@ -78,7 +78,7 @@ class MainLayout extends Component {
         children: [
           {name: 'Comms', location: '/commConfig'},
           {name: 'Power Node', location: '/PowerNodeConfig'},
-          {name: 'Grpc', location: '/Grpc'}
+          {name: 'Backend Control', location: '/Backend'}
         ]
       }
     ];

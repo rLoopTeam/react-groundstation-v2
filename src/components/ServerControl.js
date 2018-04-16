@@ -6,7 +6,7 @@ import ConnectionStatusDisplay from './displaycomponents/ConnectionStatusDisplay
 import GenericParameterLabel from './displaycomponents/GenericParameterLabel.js';
 let socket = createSocket();
 
-class Grpc extends Component {
+class ServerControl extends Component {
   constructor (props) {
     super(props);
     this.render = this.render;
@@ -80,4 +80,4 @@ class Grpc extends Component {
   }
 }
 
-export default Grpc;
+export default ServerControl;
