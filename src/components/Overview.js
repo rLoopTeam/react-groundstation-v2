@@ -4,6 +4,7 @@ import LineChart from './charts/LineChart.js';
 import FaultFlagDisplay from './displaycomponents/FaultFlagDisplay.js';
 import GenericParameterLabel from './displaycomponents/GenericParameterLabel.js';
 import ConfirmButton from './buttons/ConfirmButton.js';
+import InfoPanel from './InfoPanel';
 
 import createSocket from '../shared/socket';
 let socket = createSocket();
@@ -54,13 +55,9 @@ class Overview extends Component {
   render () {
     return (
       <div>
-        <legend>Mission</legend>
-        <div className="row">
-          <ConfirmButton className="btn btn-danger" delay={2000} action={this.resetPod}>Force pre-run phase</ConfirmButton>
-        </div>
         <div>
           <legend>Pod Health</legend>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div className="row">
               <div className="col-md-12">
                 <h3 className="section-title">Brakes</h3>
@@ -111,7 +108,7 @@ class Overview extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
           <div className="row">
             <div className="col-md-12">
               <h3 className="section-title">Navigation</h3>
@@ -167,16 +164,17 @@ class Overview extends Component {
                   height={250}
                 />
               </div>
+              <div>
+              <img src={require('../loop.png')} />
+              </div>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-4">
               <h3 className="section-title">Power</h3>
             </div>
-          </div>
-          <div className="col-md-6">
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-2">
                 <LineChart
                   id="BMSPressure"
                   StreamingPageManager={this.state.streamManager}
@@ -188,7 +186,7 @@ class Overview extends Component {
                   height={250}
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-2">
                 <LineChart
                   id="BMSTemperature"
                   StreamingPageManager={this.state.streamManager}
@@ -200,7 +198,7 @@ class Overview extends Component {
                   height={250}
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-2">
                 <LineChart
                   id="BMSVoltage"
                   StreamingPageManager={this.state.streamManager}

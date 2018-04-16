@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import InfoPanel from '../InfoPanel';
+import FaultFlagDisplay from '../displaycomponents/FaultFlagDisplay';
 
 class MainLayout extends Component {
   constructor () {
@@ -127,19 +128,17 @@ class MainLayout extends Component {
           </div>
         </div>
       </nav>
-      <div className="container-fluid">
-          {this.props.children}
-      </div>
-
       <div className="row">
         <div className="col-xs-12">
             <InfoPanel />
         </div>
-          </div>
+      </div>
+      <div className="container-fluid">
+          {this.props.children}
+      </div>
     </div>
     );
   }
 }
 
 export default MainLayout;
-
