@@ -48,6 +48,10 @@ body {
     border-right: 1px solid #aaa;
 }
 
+.container-fuselage {
+    background-image: url('./loop.png');
+}
+
 .no-right-border{
     border-right: none !important;
 }

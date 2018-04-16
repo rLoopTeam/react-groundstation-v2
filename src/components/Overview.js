@@ -5,6 +5,7 @@ import FaultFlagDisplay from './displaycomponents/FaultFlagDisplay.js';
 import GenericParameterLabel from './displaycomponents/GenericParameterLabel.js';
 import ConfirmButton from './buttons/ConfirmButton.js';
 import InfoPanel from './InfoPanel';
+import FuselageDisplay from './displaycomponents/FuselageDisplay.js';
 
 import createSocket from '../shared/socket';
 let socket = createSocket();
@@ -165,7 +166,7 @@ class Overview extends Component {
                 />
               </div>
               <div>
-              <img src={require('../loop.png')} />
+                <FuselageDisplay />
               </div>
             </div>
           </div>
