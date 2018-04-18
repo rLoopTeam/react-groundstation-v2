@@ -560,11 +560,27 @@ module.exports = function (io, room, podCommands, commConfig, config, romIDScann
       },
 
       'Backend:StartLogger':() => {
-        podCommands.BackendLoggerControl(true);
+        podCommands.ServerControlLogServiceStart();
       },
 
       'Backend:StopLogger': () => {
-        podCommands.BackendLoggerControl(false);
+        podCommands.ServerControlLogServiceStop();
+      },
+
+      'Backend:StartDatastoreManager':() => {
+        podCommands.ServerControlDatastoreManagerStart();
+      },
+
+      'Backend:StopDatastoreManager':() => {
+        podCommands.ServerControlDatastoreManagerStop();
+      },
+
+      'Backend:StartBroadcaster':() => {
+        podCommands.ServerControlBroadcasterStart();
+      },
+
+      'Backend:StopBroadcaster':() => {
+        podCommands.ServerControlBroadcasterStop();
       }
     };
 

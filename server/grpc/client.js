@@ -17,6 +17,8 @@ class GrpcClient {
           break;
         case "stopStream": this.stopStream();
           break;
+        case "serverControl": this.sendControl(m.Data);
+          break;
         case "getServerStatus": ;
           break;
       }
@@ -30,7 +32,6 @@ class GrpcClient {
 
   heartBeat(){
     if(this.isConnected()){
-      console.log("is connected");
       impl.ping(this.client,this.sendServerStatus.bind(this));
     }else {
       this.sendServerStatus(0);
@@ -59,9 +60,9 @@ class GrpcClient {
     }
   }
 
-  enableLogger(bool){
+  sendControl(data){
     if(this.isConnected()){
-      impl.enableLogger(client,bool);
+      impl.sendControl(client,data);
     }
   }
 
