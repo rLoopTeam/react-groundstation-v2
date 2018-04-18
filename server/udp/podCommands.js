@@ -555,8 +555,28 @@ module.exports = function (grpc) {
     grpc.send({Command:"transmitPodCommand",Data:data})
   }
 
-  function BackendLoggerControl(bool) {
-    grpc.send({Command:"loggerControl", Data:bool})
+  function ServerControlLogServiceStart(){
+    grpc.send({Command:"serverControl",Data:0})
+  }
+
+  function ServerControlLogServiceStop(){
+    grpc.send({Command:"serverControl",Data:1})
+  }
+
+  function ServerControlDatastoreManagerStart(){
+    grpc.send({Command:"serverControl",Data:2})
+  }
+
+  function ServerControlDatastoreManagerStop() {
+    grpc.send({Command:"serverControl",Data:3})
+  }
+
+  function ServerControlBroadcasterStart() {
+    grpc.send({Command:"serverControl",Data:4})
+  }
+
+  function ServerControlBroadcasterStop() {
+    grpc.send({Command:"serverControl",Data:5})
   }
 
   return {
@@ -688,8 +708,13 @@ module.exports = function (grpc) {
     GrpcSetServer,
     GrpcStreamPackets,
 
-    BackendLoggerControl,
+    FCUGenPodCommand,
 
-    FCUGenPodCommand
+    ServerControlLogServiceStart,
+    ServerControlLogServiceStop,
+    ServerControlDatastoreManagerStart,
+    ServerControlDatastoreManagerStop,
+    ServerControlBroadcasterStart,
+    ServerControlBroadcasterStop
   };
 };

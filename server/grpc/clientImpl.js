@@ -45,11 +45,11 @@ module.exports = {
     })*/
   },
 
-  enableLogger: function (client,bool) {
+  sendControl: function (client,data) {
     try{
-      const call = client.enableBool({check:bool},function (err,response) {
+      const call = client.controlServer({Command:data},function (err,response) {
         if(err){
-          console.log("ERROR LOG ENABLE" + err);
+          console.log("ERROR CONTROL SERVER" + err);
         }
       })
     }catch (err){
