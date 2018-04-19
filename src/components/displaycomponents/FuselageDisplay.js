@@ -1,7 +1,7 @@
 import React from 'react';
-import GenericParameterDisplay from './GenericParameterDisplay';
+import HealthCheckDisplay from './HealthCheckDisplay';
 
-class FuselageDisplay extends GenericParameterDisplay {
+class FuselageDisplay extends HealthCheckDisplay {
   constructor (props) {
     super(props);
     this.dataCallback = this.dataCallback.bind(this);
@@ -64,8 +64,7 @@ class FuselageDisplay extends GenericParameterDisplay {
       packetName = pn;
     }
     return (
-
-        <div className='container-fuselage'>
+      <div className={className}>
           <div col-m-6>
             <label>{this.props.label}</label>
             <p key='packetDetail'>{this.packetValues[packetName]}</p>

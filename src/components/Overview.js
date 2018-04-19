@@ -40,6 +40,7 @@ class Overview extends Component {
     this.state = {
       streamManager: new StreamingPageManager()
     };
+    this.watchParams = [];
   }
 
   componentWillMount () {
@@ -166,9 +167,20 @@ class Overview extends Component {
                 />
               </div>
               <div>
-                <FuselageDisplay />
-              </div>
-            </div>
+              {this.watchParams.map(function (item, index) {
+                return (
+              <div className="container-fuselage">
+                <FuselageDisplay
+                  StreamingPageManager={this.state.streamManager}
+                  parameters={[item.fullParam]}
+                  label={item.fullParam}
+                  max={item.max}
+                  min={item.min}
+                  hideUnits='true'
+                    />
+                  </div>
+                );
+              }, this)}
           </div>
           <div className="row">
             <div className="col-md-4">
@@ -211,6 +223,8 @@ class Overview extends Component {
                   height={250}
                 />
               </div>
+            </div>
+          </div>
             </div>
           </div>
         </div>
