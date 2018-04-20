@@ -50,6 +50,8 @@ body {
 
 .container-fuselage {
     background-image: url('./loop.png');
+    background-size: contain;
+    height: 180px;
 }
 
 .no-right-border{
