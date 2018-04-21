@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { Arc, Text } from 'react-konva';
+import { Arc, Layer } from 'react-konva';
 import StreamingPageManager from '../StreamingPageManager.js';
 
-class EngineDataArc extends React.Component {
-  state = {
-    color: 'green'
-  };
-  render () {
+class EngineDataArc extends Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      streamManager: new StreamingPageManager(),
+      color: 'green'
+    };
+
     this.Current_RPM = [
             {label: 'Current RPM 1', value: 'Throttle Current RPM 1'},
             {label: 'Current RPM 2', value: 'Throttle Current RPM 2'},
@@ -17,17 +20,31 @@ class EngineDataArc extends React.Component {
             {label: 'Current RPM 7', value: 'Throttle Current RPM 7'},
             {label: 'Current RPM 8', value: 'Throttle Current RPM 8'}
     ];
+  }
+  render () {
+    var _this = this;
     return (
-        <Arc
-          x={215}
-          y={90}
-          innerRadius={20}
-          outerRadius={30}
-          angle={this.Current_RPM.value('Throttle Current RPM 1')}
-          fill={'green'}
-        />
+      <div>
+      {this.Current_RPM.map(function (item, index) {
+        return (
+      <Layer>
+      <Arc
+        key={'items' + (index * 2)}
+        StreamingPageManager={_this.state.streamManager}
+        parameter={item.value}
+        x={215 + index}
+        y={90}
+        innerRadius={20}
+        outerRadius={30}
+        angle={(item.value / 3000) * 360}
+        fill={this.state.color}
+      />
+      </Layer>
+        );
+      })}
+</div>
     );
   }
-  }
+}
 
 export default EngineDataArc;

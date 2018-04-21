@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Circle } from 'react-konva';
-import Konva from 'konva';
 
 class EngineDataGraphic extends React.Component {
   state = {
