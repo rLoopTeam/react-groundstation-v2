@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Arc, Layer } from 'react-konva';
+import { Arc, Circle, Layer, Stage } from 'react-konva';
 import StreamingPageManager from '../StreamingPageManager.js';
+import packetDefinitions from '../../config/packetDefinitions.json';
 
 class EngineDataArc extends Component {
   constructor (props) {
@@ -9,42 +10,55 @@ class EngineDataArc extends Component {
       streamManager: new StreamingPageManager(),
       color: 'green'
     };
-
-    this.Current_RPM = [
-            {label: 'Current RPM 1', value: 'Throttle Current RPM 1'},
-            {label: 'Current RPM 2', value: 'Throttle Current RPM 2'},
-            {label: 'Current RPM 3', value: 'Throttle Current RPM 3'},
-            {label: 'Current RPM 4', value: 'Throttle Current RPM 4'},
-            {label: 'Current RPM 5', value: 'Throttle Current RPM 5'},
-            {label: 'Current RPM 6', value: 'Throttle Current RPM 6'},
-            {label: 'Current RPM 7', value: 'Throttle Current RPM 7'},
-            {label: 'Current RPM 8', value: 'Throttle Current RPM 8'}
-    ];
+    this.trackParams = [];
+    packetDefinitions['packetDefinitions'].forEach(function (element) {
+      if (element['Name'] === 'Throttle Parameters') {
+        this.trackParams = element['Parameters'];
+        return;
+      }
+    }, this);
   }
+
+  genArcs () {
+    let arr = [];
+    this.trackParams.forEach(function (element) {
+      if (element['Name'].substring(0, 10) === 'Current RPM') {
+        arr.push(
+        <Layer>
+        <Arc
+          key={'EngineArc' + (element)}
+          StreamingPageManager={this.state.streamManager}
+          parameter={element['Name']}
+          x={215 + (element * 2)}
+          y={90}
+          innerRadius={20}
+          outerRadius={30}
+          angle={100}
+          fill={this.state.color}
+        />
+        <Circle
+          key={'EngineCentre' + (element)}
+          x={215 + (element * 2)}
+          y={90}
+          radius={20}
+          fill={'darkgrey'}
+        />
+        </Layer>
+      );
+      }
+    }, this);
+    return arr;
+  }
+
   render () {
-    var _this = this;
     return (
-      <div>
-      {this.Current_RPM.map(function (item, index) {
-        return (
+      <Stage>
       <Layer>
-      <Arc
-        key={'items' + (index * 2)}
-        StreamingPageManager={_this.state.streamManager}
-        parameter={item.value}
-        x={215 + index}
-        y={90}
-        innerRadius={20}
-        outerRadius={30}
-        angle={(item.value / 3000) * 360}
-        fill={this.state.color}
-      />
+      {this.genArcs()}
       </Layer>
-        );
-      })}
-</div>
+      </Stage>
     );
   }
-}
+    }
 
 export default EngineDataArc;

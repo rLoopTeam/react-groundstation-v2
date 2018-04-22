@@ -227,9 +227,9 @@ class Overview extends Component {
             <Layer>
               <SystemGraphic />
               <EngineDataGraphic />
-              <EngineDataArc />
             </Layer>
           </Stage>
+          <EngineDataArc />
         </div>
         </div>
         </div>
