@@ -223,12 +223,6 @@ class Overview extends Component {
             <h3 className="section-title">Systems Overview</h3>
           </div>
         <div className="col-md-4">
-          <Stage width={600} height={400}>
-            <Layer>
-              <SystemGraphic />
-              <EngineDataGraphic />
-            </Layer>
-          </Stage>
           <EngineDataArc />
         </div>
         </div>

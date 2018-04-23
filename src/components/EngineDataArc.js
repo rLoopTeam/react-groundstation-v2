@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Arc, Circle, Layer, Stage } from 'react-konva';
+import { Arc, Circle, Layer, Group, Stage } from 'react-konva';
 import StreamingPageManager from '../StreamingPageManager.js';
 import packetDefinitions from '../../config/packetDefinitions.json';
+import GenericParameterDisplay from './displaycomponents/GenericParameterDisplay.js';
+import SystemGraphic from './SystemGraphic.js';
 
-class EngineDataArc extends Component {
+class EngineDataArc extends GenericParameterDisplay {
   constructor (props) {
     super(props);
     this.state = {
@@ -19,32 +21,64 @@ class EngineDataArc extends Component {
     }, this);
   }
 
-  genArcs () {
+  genTachs () {
     let arr = [];
+    let xOriginal = 240;
+    let yOriginal = 90;
+    let xOffset = 0;
+    let yOffset = 0;
+    let i = 0;
     this.trackParams.forEach(function (element) {
-      if (element['Name'].substring(0, 10) === 'Current RPM') {
+      if ((element['Name'].indexOf('Current RPM')) !== -1) {
+        console.log(arr);
+        if (i >= 4 && i <= 7) {
+          xOffset = 120;
+          if (i === 4) {
+            yOffset = 0;
+          }
+          if (i === 5) {
+            yOffset = 55;
+          }
+          if (i === 6) {
+            yOffset = 225;
+          }
+          if (i === 7) {
+            yOffset = 280;
+          }
+        }
+        if (i === 1) {
+          yOffset = 55;
+        }
+        if (i === 2) {
+          yOffset = 225;
+        }
+        if (i === 3) {
+          yOffset = 280;
+        }
+
         arr.push(
-        <Layer>
+        <Group key={'Group ' + (element['Name'])}>
         <Arc
-          key={'EngineArc' + (element)}
+          key={'EngineArc ' + (element['Name'])}
           StreamingPageManager={this.state.streamManager}
           parameter={element['Name']}
-          x={215 + (element * 2)}
-          y={90}
+          x={xOriginal + xOffset}
+          y={yOriginal + yOffset}
           innerRadius={20}
-          outerRadius={30}
-          angle={100}
+          outerRadius={26}
+          angle={(this.state.value / 3000) * 365}
           fill={this.state.color}
         />
         <Circle
-          key={'EngineCentre' + (element)}
-          x={215 + (element * 2)}
-          y={90}
+          key={'EngineCentre ' + (element['Name'])}
+          x={xOriginal + xOffset}
+          y={yOriginal + yOffset}
           radius={20}
           fill={'darkgrey'}
         />
-        </Layer>
+        </Group>
       );
+        i++;
       }
     }, this);
     return arr;
@@ -52,9 +86,12 @@ class EngineDataArc extends Component {
 
   render () {
     return (
-      <Stage>
+      <Stage width={600} height={500}>
       <Layer>
-      {this.genArcs()}
+      <SystemGraphic />
+      </Layer>
+      <Layer>
+      {this.genTachs()}
       </Layer>
       </Stage>
     );
