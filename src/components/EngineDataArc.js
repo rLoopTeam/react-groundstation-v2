@@ -66,7 +66,7 @@ class EngineDataArc extends GenericParameterDisplay {
           y={yOriginal + yOffset}
           innerRadius={20}
           outerRadius={26}
-          angle={(this.state.value / 3000) * 365}
+          angle={(this.state.value / 3000) * 360}
           fill={this.state.color}
         />
         <Circle
