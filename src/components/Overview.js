@@ -223,7 +223,10 @@ class Overview extends Component {
             <h3 className="section-title">Systems Overview</h3>
           </div>
         <div className="col-md-4">
-          <EngineDataArc />
+        <EngineDataArc
+          parameters={['Throttle Current RPM 1', 'Throttle Current RPM 2', 'Throttle Current RPM 3', 'Throttle Current RPM 4', 'Throttle Current RPM 5', 'Throttle Current RPM 6', 'Throttle Current RPM 7', 'Throttle Current RPM 8']}
+          StreamingPageManager={this.state.streamManager}
+        />
         </div>
         </div>
         </div>

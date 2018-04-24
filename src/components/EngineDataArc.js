@@ -1,26 +1,45 @@
 import React, { Component } from 'react';
 import { Arc, Circle, Layer, Group, Stage } from 'react-konva';
 import StreamingPageManager from '../StreamingPageManager.js';
-import packetDefinitions from '../../config/packetDefinitions.json';
+
 import GenericParameterDisplay from './displaycomponents/GenericParameterDisplay.js';
 import SystemGraphic from './SystemGraphic.js';
 
 class EngineDataArc extends GenericParameterDisplay {
   constructor (props) {
     super(props);
+    this.latestValue = {};
     this.state = {
-      streamManager: new StreamingPageManager(),
       color: 'green'
     };
-    this.trackParams = [];
-    packetDefinitions['packetDefinitions'].forEach(function (element) {
-      if (element['Name'] === 'Throttle Parameters') {
-        this.trackParams = element['Parameters'];
-        return;
-      }
-    }, this);
+
+    // sets up the StreamingPage manager for each parameter we want to display
+    for (let i = 0; i < this.props.parameters.length; i++) {
+      (function (index, myObj) {
+        myObj.latestValue[myObj.props.parameters[index]] = {
+          stale: false,
+          value: 0,
+          units: ''
+        };
+        myObj.props.StreamingPageManager.RequestParameterWithCallback(myObj.props.parameters[index], function (data) {
+          myObj.dataCallback(data, index);
+        });
+      })(i, this);
+    }
   }
 
+  dataCallback (parameterData, i) {
+    // update the latestValues object with values from the pod
+    if (this._isMounted) {
+      this.latestValue[parameterData.Name].value = parameterData.Value;
+      this.latestValue[parameterData.Name].stale = parameterData.IsStale;
+      this.latestValue[parameterData.Name].units = parameterData.Units;
+    }
+  }
+
+  getFormattedValue (paramName) {
+    return Number(this.latestValue[paramName].value);
+  }
   genTachs () {
     let arr = [];
     let xOriginal = 240;
@@ -28,49 +47,48 @@ class EngineDataArc extends GenericParameterDisplay {
     let xOffset = 0;
     let yOffset = 0;
     let i = 0;
-    this.trackParams.forEach(function (element) {
-      if ((element['Name'].indexOf('Current RPM')) !== -1) {
-        console.log(arr);
-        if (i >= 4 && i <= 7) {
-          xOffset = 120;
-          if (i === 4) {
-            yOffset = 0;
-          }
-          if (i === 5) {
-            yOffset = 55;
-          }
-          if (i === 6) {
-            yOffset = 225;
-          }
-          if (i === 7) {
-            yOffset = 280;
-          }
+    this.props.parameters.forEach(function (paramName) {
+      console.log(arr);
+      if (i >= 4 && i <= 7) {
+        xOffset = 120;
+        if (i === 4) {
+          yOffset = 0;
         }
-        if (i === 1) {
+        if (i === 5) {
           yOffset = 55;
         }
-        if (i === 2) {
+        if (i === 6) {
           yOffset = 225;
         }
-        if (i === 3) {
+        if (i === 7) {
           yOffset = 280;
         }
+      }
+      if (i === 1) {
+        yOffset = 55;
+      }
+      if (i === 2) {
+        yOffset = 225;
+      }
+      if (i === 3) {
+        yOffset = 280;
+      }
 
-        arr.push(
-        <Group key={'Group ' + (element['Name'])}>
+      arr.push(
+        <Group key={'Group ' + (paramName)}>
         <Arc
-          key={'EngineArc ' + (element['Name'])}
-          StreamingPageManager={this.state.streamManager}
-          parameter={element['Name']}
+          key={'EngineArc ' + (paramName)}
+          parameter={paramName}
           x={xOriginal + xOffset}
           y={yOriginal + yOffset}
           innerRadius={20}
           outerRadius={26}
-          angle={(this.state.value / 3000) * 360}
+          angle={(this.getFormattedValue(paramName) / 3000) * 360}
           fill={this.state.color}
+          test={this.latestValue[paramName].value}
         />
         <Circle
-          key={'EngineCentre ' + (element['Name'])}
+          key={'EngineCentre ' + paramName}
           x={xOriginal + xOffset}
           y={yOriginal + yOffset}
           radius={20}
@@ -78,8 +96,7 @@ class EngineDataArc extends GenericParameterDisplay {
         />
         </Group>
       );
-        i++;
-      }
+      i++;
     }, this);
     return arr;
   }
