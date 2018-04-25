@@ -87,7 +87,7 @@ class Simulator_Control extends Component {
         <div className="row">
           <div className="col-sm-5">
             <h3 className="section-title">Playback Controls</h3>
-            <button className="btn btn-success" onClick={_this.startSim.bind(this)} style={{margin: 10}}>Start Simulator</button>
+            <button type="button" className="btn btn-success" onClick={this.startSim.bind(this)} style={{margin: 10}}>Start Simulator</button>
             <button type="button" className="btn btn-warning" onClick={this.pauseSim.bind(this)} style={{margin: 10}}>Pause Simulator</button>
             <button type="button" className="btn btn-primary" onClick={this.resumeSim.bind(this)} style={{margin: 10}}>Resume Simulator</button>
             <button type="button" className="btn btn-danger" onClick={this.stopSim.bind(this)} style={{margin: 10}}>Stop Simulator</button><br />

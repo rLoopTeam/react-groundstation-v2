@@ -67,24 +67,40 @@ class GrpcClient {
   }
 
   sendServerStatus(status){
-    let data0 = {
-      ParameterName: 'GrpcServerEndPoint',
-      Value: this.grpcServerAddress
-    };
-    let data1 = {
-      ParameterName: 'GrpcServerStatus',
-      Value: status
-    };
-    if (this.currentStream !== undefined){
-      data0.Value = this.currentStream.getPeer();
-      data1.Value = status;
+    //console.log(util.inspect(status, {depth: null}));
+    let data0,data1,data2,data3,data4,data5 = {};
+    if (status !== null){
+      data0 = {
+        ParameterName: 'GrpcServerEndPoint',
+        Value: this.grpcServerAddress
+      };
+      data1 = {
+        ParameterName: 'GrpcServerStatus',
+        Value: 2
+      };
+      data2 = {
+        ParameterName: 'DataStoreManagerRunning',
+        Value: status['DataStoreManagerRunning']
+      };
+      data3 = {
+        ParameterName: 'GRPCServerRunning',
+        Value: status['GRPCServerRunning']
+      };
+      data4 = {
+        ParameterName: 'BroadcasterRunning',
+        Value: status['BroadcasterRunning']
+      };
+      data5 = {
+        ParameterName: 'GSLoggerRunning',
+        Value: status['GSLoggerRunning']
+      }
+    }else{
+      data0,data1,data2,data3,data4,data5 = {ParameterName: '', Value: ''};
     }
 
     console.log("sending server info");
-    const dataArray = [data0,data1];
+    const dataArray = [data0,data1,data2,data3,data4,data5];
     process.send({Command: "serverInfo", Data:dataArray});
-    //process.send({Command: "serverInfo", Data:data0});
-    //process.send({Command: "serverInfo", Data:data1});
   }
 
   connectionStatusCallback(status){

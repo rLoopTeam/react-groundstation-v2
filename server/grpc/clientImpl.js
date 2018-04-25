@@ -59,11 +59,12 @@ module.exports = {
   ping: function(client,callback){
     try{
       const call = client.ping({}, function (err,response){
+        console.log("PING!");
         if(err){
           console.log("ERROR PING");
-          callback(0);
+          callback(null);
         }else{
-          callback(2);
+          callback(response['Status']);
         }
       });
     }catch(err){

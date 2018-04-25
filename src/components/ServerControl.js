@@ -3,6 +3,7 @@ import StreamingPageManager from './../StreamingPageManager';
 import createSocket from '../shared/socket';
 import TextInput from './displaycomponents/TextInput';
 import ConnectionStatusDisplay from './displaycomponents/ConnectionStatusDisplay';
+import BackendStatusDisplay from './displaycomponents/BackendStatusDisplay';
 import GenericParameterLabel from './displaycomponents/GenericParameterLabel.js';
 let socket = createSocket();
 
@@ -18,7 +19,11 @@ class ServerControl extends Component {
 
     this.labels = [
       {label: 'GRPC Server Status', value: `GrpcServerStatus`, hex: 'false'},
-      {label: 'GRPC Server Current Endpoint', value: `GrpcServerEndPoint`, hex: 'false'}
+      {label: 'GRPC Server Current Endpoint', value: `GrpcServerEndPoint`, hex: 'false'},
+      {label: 'DataStoreManagerRunning', value: `DataStoreManagerRunning`, hex: 'false'},
+      {label: 'GRPCServerRunning', value: `GRPCServerRunning`, hex: 'false'},
+      {label: 'BroadcasterRunning', value: `BroadcasterRunning`, hex: 'false'},
+      {label: 'GSLoggerRunning', value: `GSLoggerRunning`, hex: 'false'}
     ];
   }
 
@@ -62,6 +67,10 @@ class ServerControl extends Component {
               <GenericParameterLabel
                 StreamingPageManager={_this.state.streamManager}
                 parameter={this.labels[0].value}/>
+              <label>{this.labels[3].label}</label>
+              <BackendStatusDisplay
+                StreamingPageManager={_this.state.streamManager}
+                parameter={this.labels[3].value}/>
               <label>{this.labels[1].label}</label>
               <GenericParameterLabel
                 StreamingPageManager={_this.state.streamManager}
