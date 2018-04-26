@@ -46,7 +46,6 @@ class GrpcClient {
   }
 
   streamPackets(){
-    console.log("STREAMPACKETS");
     if(!this.isConnected()){
       console.log("IS NOT CONNECTED TO GRPC");
       this.createConnection("localhost:9800");
@@ -102,21 +101,6 @@ class GrpcClient {
     process.send({Command: "serverInfo", Data:dataArray});
   }
 
-  connectionStatusCallback(status){
-    let statusCode = 0;
-    if(status === undefined){
-
-    }else{
-      switch (status.code){
-        case 14:
-          statusCode = 0;
-          break;
-        default:
-      }
-    }
-    this.sendServerStatus(statusCode);
-  }
-
   sendProtoToDatastore(data) {
     this.sendServerStatus(2);
     process.send({Command: "newPacket", Data: data});
@@ -137,7 +121,7 @@ class GrpcClient {
   }
 
   _streamPackets(){
-    this.currentStream = impl.streamPackets(this.client, this.sendProtoToDatastore.bind(this), this.connectionStatusCallback.bind(this));
+    this.currentStream = impl.streamPackets(this.client, this.sendProtoToDatastore.bind(this), this.sendServerStatus.bind(this));
   }
 
   _transmitPodCommand(Data){
