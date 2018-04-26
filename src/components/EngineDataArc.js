@@ -8,15 +8,15 @@ import SystemGraphic from './SystemGraphic.js';
 class EngineDataArc extends GenericParameterDisplay {
   constructor (props) {
     super(props);
-    this.latestValue = {};
     this.state = {
-      color: 'green'
+      color: 'green',
+      latestValue: {}
     };
 
     // sets up the StreamingPage manager for each parameter we want to display
     for (let i = 0; i < this.props.parameters.length; i++) {
       (function (index, myObj) {
-        myObj.latestValue[myObj.props.parameters[index]] = {
+        myObj.state.latestValue[myObj.props.parameters[index]] = {
           stale: false,
           value: 0,
           units: ''
@@ -31,14 +31,16 @@ class EngineDataArc extends GenericParameterDisplay {
   dataCallback (parameterData, i) {
     // update the latestValues object with values from the pod
     if (this._isMounted) {
-      this.latestValue[parameterData.Name].value = parameterData.Value;
-      this.latestValue[parameterData.Name].stale = parameterData.IsStale;
-      this.latestValue[parameterData.Name].units = parameterData.Units;
+      this.state.latestValue[parameterData.Name].value = parameterData.Value;
+      this.state.latestValue[parameterData.Name].stale = parameterData.IsStale;
+      this.state.latestValue[parameterData.Name].units = parameterData.Units;
+      return parameterData.Value;
     }
   }
 
   getFormattedValue (paramName) {
-    return Number(this.latestValue[paramName].value);
+    console.log(this.state.latestValue[paramName].value);
+    return this.state.latestValue[paramName].value;
   }
   genTachs () {
     let arr = [];
@@ -85,7 +87,7 @@ class EngineDataArc extends GenericParameterDisplay {
           outerRadius={26}
           angle={(this.getFormattedValue(paramName) / 3000) * 360}
           fill={this.state.color}
-          test={this.latestValue[paramName].value}
+          test={this.state.latestValue[paramName].value}
         />
         <Circle
           key={'EngineCentre ' + paramName}
