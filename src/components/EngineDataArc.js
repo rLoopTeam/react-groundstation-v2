@@ -34,14 +34,14 @@ class EngineDataArc extends GenericParameterDisplay {
       this.state.latestValue[parameterData.Name].value = parameterData.Value;
       this.state.latestValue[parameterData.Name].stale = parameterData.IsStale;
       this.state.latestValue[parameterData.Name].units = parameterData.Units;
-      return parameterData.Value;
+      this.setState({ counter: this.state.counter + 1 });
     }
   }
 
   getFormattedValue (paramName) {
-    console.log(this.state.latestValue[paramName].value);
     return this.state.latestValue[paramName].value;
   }
+
   genTachs () {
     let arr = [];
     let xOriginal = 240;
@@ -99,7 +99,7 @@ class EngineDataArc extends GenericParameterDisplay {
         </Group>
       );
       i++;
-    }, this);
+    }.bind(this));
     return arr;
   }
 
@@ -110,7 +110,7 @@ class EngineDataArc extends GenericParameterDisplay {
       <SystemGraphic />
       </Layer>
       <Layer>
-      {this.genTachs()}
+          {this.genTachs()}
       </Layer>
       </Stage>
     );
