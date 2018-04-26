@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Arc, Circle, Layer, Group, Stage } from 'react-konva';
+import { Arc, Circle, Text, Layer, Group, Stage } from 'react-konva';
 import StreamingPageManager from '../StreamingPageManager.js';
 
 import GenericParameterDisplay from './displaycomponents/GenericParameterDisplay.js';
@@ -95,6 +95,13 @@ class EngineDataArc extends GenericParameterDisplay {
           y={yOriginal + yOffset}
           radius={20}
           fill={'darkgrey'}
+        />
+        <Text
+          key={'EnginePercentLabel ' + (paramName)}
+          parameter={paramName}
+          x={xOriginal + xOffset - 13}
+          y={yOriginal + yOffset - 5}
+          text={Number((this.getFormattedValue(paramName) / 3000) * 100).toFixed(0) + '%'}
         />
         </Group>
       );
