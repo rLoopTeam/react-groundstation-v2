@@ -20,15 +20,31 @@ class ServerControl extends Component {
     this.labels = [
       {label: 'GRPC Server Status', value: `GrpcServerStatus`, hex: 'false'},
       {label: 'GRPC Server Current Endpoint', value: `GrpcServerEndPoint`, hex: 'false'},
-      {label: 'DataStoreManagerRunning', value: `DataStoreManagerRunning`, hex: 'false'},
-      {label: 'GRPCServerRunning', value: `GRPCServerRunning`, hex: 'false'},
-      {label: 'BroadcasterRunning', value: `BroadcasterRunning`, hex: 'false'},
-      {label: 'GSLoggerRunning', value: `GSLoggerRunning`, hex: 'false'}
+      {label: 'DataStore Manager', value: `DataStoreManagerRunning`, hex: 'false'},
+      {label: 'GRPC Server', value: `GRPCServerRunning`, hex: 'false'},
+      {label: 'Broadcaster', value: `BroadcasterRunning`, hex: 'false'},
+      {label: 'GS Logger', value: `GSLoggerRunning`, hex: 'false'}
     ];
   }
 
+  genStats () {
+    const length = this.labels.length;
+    let statArray = [];
+    for (let idx = 2; idx < length; idx++) {
+      statArray.push(
+        <div>
+          <label>{this.labels[idx].label}</label>
+          <BackendStatusDisplay
+        StreamingPageManager={this.state.streamManager}
+        parameter={this.labels[idx].value}/>
+        </div>
+      );
+    }
+    return statArray;
+  }
+
   componentDidMount () {
-    var _this = this;
+    let _this = this;
     this._isMounted = true;
   }
   componentWillUnmount () {
@@ -67,11 +83,7 @@ class ServerControl extends Component {
               <GenericParameterLabel
                 StreamingPageManager={_this.state.streamManager}
                 parameter={this.labels[0].value}/>
-              <label>{this.labels[3].label}</label>
-              <BackendStatusDisplay
-                StreamingPageManager={_this.state.streamManager}
-                parameter={this.labels[3].value}/>
-              <label>{this.labels[1].label}</label>
+              {this.genStats()}
               <GenericParameterLabel
                 StreamingPageManager={_this.state.streamManager}
                 parameter={this.labels[1].value}/>

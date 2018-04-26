@@ -517,37 +517,57 @@ module.exports = function (io, room, podCommands, commConfig, config, romIDScann
 
       //Python Simulator
       'PySim:StartSim': () => {
-        const data = [0x0,0x0,0x0,0x0];
+        const data = [0x1,0x1,0x0,0x0];
+        podCommands.PySimControl(data);
+      },
+
+      'PySim:PauseSim': () => {
+        const data = [0x1,0x2,0x0,0x0];
+        podCommands.PySimControl(data);
+      },
+
+      'PySim:ResumeSim': () => {
+        const data = [0x1,0x3,0x0,0x0];
         podCommands.PySimControl(data);
       },
 
       'PySim:StopSim': () => {
-        const data = [0x0,0x0,0x0,0x0];
+        const data = [0x1,0x0,0x0,0x0];
         podCommands.PySimControl(data);
       },
 
-      'PySim:StartLogging': () => {
-        const data = [0x0,0x0,0x0,0x0];
+      'PySim:StartLogging': (sensor) => {
+        const data = [0x2,sensor,0x1,0x0];
         podCommands.PySimControl(data);
       },
 
-      'PySim:StopLogging': () => {
-        const data = [0x0,0x0,0x0,0x0];
+      'PySim:StopLogging': (sensor) => {
+        const data = [0x2,sensor,0x0,0x0];
         podCommands.PySimControl(data);
       },
 
       'PySim:StartPusher': () => {
+        const data = [0x3,0x1,0x0,0x0];
+        podCommands.PySimControl(data);
+      },
+
+      'PySim:StopPusher': () => {
+        const data = [0x3,0x0,0x0,0x0];
+        podCommands.PySimControl(data);
+      },
+
+      'PySim:SetAtmosphere': (pressure) => {
         const data = [0x0,0x0,0x0,0x0];
         podCommands.PySimControl(data);
       },
 
       'PySim:ResetSim': () => {
-        const data = [0x0,0x0,0x0,0x0];
+        const data = [0x9,0x9,0x9,0x9];
         podCommands.PySimControl(data);
       },
 
       'PySim:ResetFcu': () => {
-        const data = [0x0,0x0,0x0,0x0];
+        const data = [0x8,0x8,0x8,0x8];
         podCommands.PySimControl(data);
       },
 

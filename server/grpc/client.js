@@ -68,7 +68,8 @@ class GrpcClient {
 
   sendServerStatus(status){
     //console.log(util.inspect(status, {depth: null}));
-    let data0,data1,data2,data3,data4,data5 = {};
+    let data0,data1,data2,data3,data4,data5 = {ParameterName: '', Value: ''};
+    let dataArray = [];
     if (status !== null){
       data0 = {
         ParameterName: 'GrpcServerEndPoint',
@@ -93,13 +94,11 @@ class GrpcClient {
       data5 = {
         ParameterName: 'GSLoggerRunning',
         Value: status['GSLoggerRunning']
-      }
-    }else{
-      data0,data1,data2,data3,data4,data5 = {ParameterName: '', Value: ''};
+      };
+      dataArray = [data0,data1,data2,data3,data4,data5]
     }
-
     console.log("sending server info");
-    const dataArray = [data0,data1,data2,data3,data4,data5];
+
     process.send({Command: "serverInfo", Data:dataArray});
   }
 
