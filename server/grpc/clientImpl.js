@@ -44,6 +44,7 @@ module.exports = {
         if(err){
           console.log("ERROR CALLBACK:");
         }else{
+
           console.log("command succesfuly sent");
         }
       });

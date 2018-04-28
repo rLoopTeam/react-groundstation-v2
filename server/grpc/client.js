@@ -127,7 +127,7 @@ class GrpcClient {
   _transmitPodCommand(Data){
     //console.log("transmit pod command: ");
     //console.log(util.inspect(Data, {depth: null}));
-    impl.sendCommand(this.client,Data.Node,Data.CommandType,Data.data0, Data.data1, Data.data2, Data.data3)
+    impl.sendCommand(this.client,Data.Node,Data.CommandType,Data.Data0, Data.Data1, Data.Data2, Data.Data3)
   }
 }
 
