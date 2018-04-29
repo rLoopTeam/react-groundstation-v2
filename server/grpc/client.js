@@ -19,6 +19,8 @@ class GrpcClient {
           break;
         case "serverControl": this.sendControl(m.Data);
           break;
+        case "pySimControl": ;
+          break;
         case "getServerStatus": ;
           break;
       }
@@ -62,6 +64,12 @@ class GrpcClient {
   sendControl(data){
     if(this.isConnected()){
       impl.sendControl(client,data);
+    }
+  }
+
+  sendPySimControl(data){
+    if(this.isConnected()){
+      impl.sendPySimControl(client,data);
     }
   }
 

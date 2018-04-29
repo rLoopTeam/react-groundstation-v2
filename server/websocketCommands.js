@@ -517,58 +517,58 @@ module.exports = function (io, room, podCommands, commConfig, config, romIDScann
 
       //Python Simulator
       'PySim:StartSim': () => {
-        const data = [0x1,0x1,0x0,0x0];
-        podCommands.PySimControl(data);
+        //const data = [0x1,0x1,0x0,0x0];
+        podCommands.PySimControl(0);
       },
 
       'PySim:PauseSim': () => {
-        const data = [0x1,0x2,0x0,0x0];
-        podCommands.PySimControl(data);
+        //const data = [0x1,0x2,0x0,0x0];
+        podCommands.PySimControl(1);
       },
 
       'PySim:ResumeSim': () => {
-        const data = [0x1,0x3,0x0,0x0];
-        podCommands.PySimControl(data);
+        //const data = [0x1,0x3,0x0,0x0];
+        podCommands.PySimControl(2);
       },
 
       'PySim:StopSim': () => {
-        const data = [0x1,0x0,0x0,0x0];
-        podCommands.PySimControl(data);
+        //const data = [0x1,0x0,0x0,0x0];
+        podCommands.PySimControl(3);
       },
 
       'PySim:StartLogging': (sensor) => {
-        const data = [0x2,sensor,0x1,0x0];
-        podCommands.PySimControl(data);
+        //const data = [0x2,sensor,0x1,0x0];
+        podCommands.PySimControl();
       },
 
       'PySim:StopLogging': (sensor) => {
-        const data = [0x2,sensor,0x0,0x0];
-        podCommands.PySimControl(data);
+        //const data = [0x2,sensor,0x0,0x0];
+        podCommands.PySimControl();
       },
 
       'PySim:StartPusher': () => {
-        const data = [0x3,0x1,0x0,0x0];
-        podCommands.PySimControl(data);
+        //const data = [0x3,0x1,0x0,0x0];
+        podCommands.PySimControl();
       },
 
       'PySim:StopPusher': () => {
-        const data = [0x3,0x0,0x0,0x0];
-        podCommands.PySimControl(data);
+        //const data = [0x3,0x0,0x0,0x0];
+        podCommands.PySimControl();
       },
 
       'PySim:SetAtmosphere': (pressure) => {
-        const data = [0x0,0x0,0x0,0x0];
-        podCommands.PySimControl(data);
+        //const data = [0x0,0x0,0x0,0x0];
+        podCommands.PySimControl();
       },
 
       'PySim:ResetSim': () => {
-        const data = [0x9,0x9,0x9,0x9];
-        podCommands.PySimControl(data);
+        //const data = [0x9,0x9,0x9,0x9];
+        podCommands.PySimControl();
       },
 
       'PySim:ResetFcu': () => {
-        const data = [0x8,0x8,0x8,0x8];
-        podCommands.PySimControl(data);
+        //const data = [0x8,0x8,0x8,0x8];
+        podCommands.PySimControl();
       },
 
       'Grpc:Connect': (data) => {

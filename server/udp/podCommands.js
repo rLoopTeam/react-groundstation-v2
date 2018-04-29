@@ -529,7 +529,7 @@ module.exports = function (grpc) {
 
   //Python Sim
   function PySimControl (data){
-    transmitPodCommand('Python Sim',0x8000, data[0],data[1],data[2],data[3])
+    grpc.send({Command:"pySimControl",Data:data});
   }
 
   function FCUGenPodCommand (data) {
