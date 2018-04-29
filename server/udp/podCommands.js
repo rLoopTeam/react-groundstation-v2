@@ -18,6 +18,10 @@ module.exports = function (grpc) {
     transmitPodCommand('Power Node B', 0x3FFF, 0x1234ABCD, 0x0, 0x0, 0x0);
   }
 
+  function PySimHeartbeat () {
+    transmitPodCommand('Python Sim', 0x0000,0x0000,0x0000,0x0000);
+  }
+
   function LGU_PositionChange (liftName, liftDirection) {
     console.log('Name:' + liftName + ' Direction:' + liftDirection);
     // transmitPodCommand('????', 0x0000, 0x000000, 0x0, 0x0, 0x0) //TODO
@@ -222,6 +226,8 @@ module.exports = function (grpc) {
     transmitPodCommand('Flight Control', 0x0100, 0x00, 0x00000000, 0x0, 0x0);
   }
 
+
+  //Pod Power
   function PowerAStreamingOff () {
     transmitPodCommand('Power Node A', 0x3010, 0x00, 0x00000000, 0x0, 0x0);
   }
@@ -430,7 +436,7 @@ module.exports = function (grpc) {
     transmitPodCommand('Flight Control', 0x0000, 0x00, 0x00000000, 0x0, 0x0); // TODO
   }
 
-    // Aux Propulsion
+  // Aux Propulsion
   function FCUAuxProp_Enable () {
     transmitPodCommand('Flight Control', 0x0000, 0x00, 0x00000000, 0x0, 0x0); // TODO
   }
@@ -441,7 +447,7 @@ module.exports = function (grpc) {
     transmitPodCommand('Flight Control', 0x0000, 0x00, 0x00000000, 0x0, 0x0); // TODO
   }
 
-        // Gimbal
+  // Gimbal
   function FCUGimbal_Static () {
     transmitPodCommand('Flight Control', 0x0000, 0x00, 0x00000000, 0x0, 0x0); // TODO
   }
@@ -458,6 +464,8 @@ module.exports = function (grpc) {
   function HETherm_ControlMode (data) {
     transmitPodCommand('HE Thermal Monitor', 0x6002, 0xAA117799, data, 0x0, 0x0);
   }
+
+  //Xilinx Sim
 
   function XilinxSim_Start () {
     transmitPodCommand('Xilinx Sim', 0x5000, 0x1, 0x0, 0x0, 0x0);
@@ -497,6 +505,7 @@ module.exports = function (grpc) {
     transmitPodCommand('Xilinx Sim', 0x1900, 0x04, 0x0, 0x0, 0x0);
   }
 
+  //Pod State
   function PodSafePowerNodeA () {
     transmitPodCommand('Power Node A', 0x3000, 0x76543210, 0x0, 0x0, 0x0);
   }
@@ -517,8 +526,10 @@ module.exports = function (grpc) {
     transmitPodCommand('IPS Charger', 0x9124, 0x76543210, data.current, 0x0, 0x0);
   }
 
+
+  //Python Sim
   function PySimControl (data){
-    transmitPodCommand('Python Sim',0x0000, data[0],data[1],data[2],data[3])
+    transmitPodCommand('Python Sim',0x8000, data[0],data[1],data[2],data[3])
   }
 
   function FCUGenPodCommand (data) {
@@ -555,8 +566,28 @@ module.exports = function (grpc) {
     grpc.send({Command:"transmitPodCommand",Data:data})
   }
 
-  function BackendLoggerControl(bool) {
-    grpc.send({Command:"loggerControl", Data:bool})
+  function ServerControlLogServiceStart(){
+    grpc.send({Command:"serverControl",Data:0})
+  }
+
+  function ServerControlLogServiceStop(){
+    grpc.send({Command:"serverControl",Data:1})
+  }
+
+  function ServerControlDatastoreManagerStart(){
+    grpc.send({Command:"serverControl",Data:2})
+  }
+
+  function ServerControlDatastoreManagerStop() {
+    grpc.send({Command:"serverControl",Data:3})
+  }
+
+  function ServerControlBroadcasterStart() {
+    grpc.send({Command:"serverControl",Data:4})
+  }
+
+  function ServerControlBroadcasterStop() {
+    grpc.send({Command:"serverControl",Data:5})
   }
 
   return {
@@ -684,12 +715,18 @@ module.exports = function (grpc) {
     setChargerI,
 
     PySimControl,
+    PySimHeartbeat,
 
     GrpcSetServer,
     GrpcStreamPackets,
 
-    BackendLoggerControl,
+    FCUGenPodCommand,
 
-    FCUGenPodCommand
+    ServerControlLogServiceStart,
+    ServerControlLogServiceStop,
+    ServerControlDatastoreManagerStart,
+    ServerControlDatastoreManagerStop,
+    ServerControlBroadcasterStart,
+    ServerControlBroadcasterStop
   };
 };

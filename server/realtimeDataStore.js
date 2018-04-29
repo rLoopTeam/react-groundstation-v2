@@ -45,7 +45,7 @@ class RealTimeDataStore {
     const length = newData.length;
     const bundle = [];
     for (let idx = 0; idx < length; idx++){
-      console.log("server status: " + newData[idx].Value);
+      //console.log("server status: " + newData[idx].ParameterName + 'Value: ' + newData[idx].Value);
       const dataUnit = {'PacketName': '',
         'RxTime': Date.now(),
         'Name': newData[idx].ParameterName,

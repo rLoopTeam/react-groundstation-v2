@@ -17,6 +17,8 @@ class GrpcClient {
           break;
         case "stopStream": this.stopStream();
           break;
+        case "serverControl": this.sendControl(m.Data);
+          break;
         case "getServerStatus": ;
           break;
       }
@@ -30,7 +32,6 @@ class GrpcClient {
 
   heartBeat(){
     if(this.isConnected()){
-      console.log("is connected");
       impl.ping(this.client,this.sendServerStatus.bind(this));
     }else {
       this.sendServerStatus(0);
@@ -45,7 +46,6 @@ class GrpcClient {
   }
 
   streamPackets(){
-    console.log("STREAMPACKETS");
     if(!this.isConnected()){
       console.log("IS NOT CONNECTED TO GRPC");
       this.createConnection("localhost:9800");
@@ -59,46 +59,46 @@ class GrpcClient {
     }
   }
 
-  enableLogger(bool){
+  sendControl(data){
     if(this.isConnected()){
-      impl.enableLogger(client,bool);
+      impl.sendControl(client,data);
     }
   }
 
   sendServerStatus(status){
-    let data0 = {
-      ParameterName: 'GrpcServerEndPoint',
-      Value: this.grpcServerAddress
-    };
-    let data1 = {
-      ParameterName: 'GrpcServerStatus',
-      Value: status
-    };
-    if (this.currentStream !== undefined){
-      data0.Value = this.currentStream.getPeer();
-      data1.Value = status;
+    //console.log(util.inspect(status, {depth: null}));
+    let data0,data1,data2,data3,data4,data5 = {ParameterName: '', Value: ''};
+    let dataArray = [];
+    if (status !== null){
+      data0 = {
+        ParameterName: 'GrpcServerEndPoint',
+        Value: this.grpcServerAddress
+      };
+      data1 = {
+        ParameterName: 'GrpcServerStatus',
+        Value: 2
+      };
+      data2 = {
+        ParameterName: 'DataStoreManagerRunning',
+        Value: status['DataStoreManagerRunning']
+      };
+      data3 = {
+        ParameterName: 'GRPCServerRunning',
+        Value: status['GRPCServerRunning']
+      };
+      data4 = {
+        ParameterName: 'BroadcasterRunning',
+        Value: status['BroadcasterRunning']
+      };
+      data5 = {
+        ParameterName: 'GSLoggerRunning',
+        Value: status['GSLoggerRunning']
+      };
+      dataArray = [data0,data1,data2,data3,data4,data5]
     }
-
     console.log("sending server info");
-    const dataArray = [data0,data1];
+
     process.send({Command: "serverInfo", Data:dataArray});
-    //process.send({Command: "serverInfo", Data:data0});
-    //process.send({Command: "serverInfo", Data:data1});
-  }
-
-  connectionStatusCallback(status){
-    let statusCode = 0;
-    if(status === undefined){
-
-    }else{
-      switch (status.code){
-        case 14:
-          statusCode = 0;
-          break;
-        default:
-      }
-    }
-    this.sendServerStatus(statusCode);
   }
 
   sendProtoToDatastore(data) {
@@ -121,13 +121,13 @@ class GrpcClient {
   }
 
   _streamPackets(){
-    this.currentStream = impl.streamPackets(this.client, this.sendProtoToDatastore.bind(this), this.connectionStatusCallback.bind(this));
+    this.currentStream = impl.streamPackets(this.client, this.sendProtoToDatastore.bind(this), this.sendServerStatus.bind(this));
   }
 
   _transmitPodCommand(Data){
     //console.log("transmit pod command: ");
     //console.log(util.inspect(Data, {depth: null}));
-    impl.sendCommand(this.client,Data.Node,Data.CommandType,Data.data0, Data.data1, Data.data2, Data.data3)
+    impl.sendCommand(this.client,Data.Node,Data.CommandType,Data.Data0, Data.Data1, Data.Data2, Data.Data3)
   }
 }
 

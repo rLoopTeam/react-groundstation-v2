@@ -2,15 +2,28 @@ const grpc = require('grpc');
 const util = require('util');
 
 module.exports = {
-  streamPackets: function(client,callback, connectionStatusCallback){
+  //console.log(util.inspect(call, {depth: null}));
+  streamPackets: function(client,callback, statuscb){
       const call = client.streamPackets();
       console.log("stream requested");
-      //console.log(util.inspect(call, {depth: null}));
       call.on('error', function(error){
         console.error(error)
       });
       //call.on('cancelled',connectionStatusCallback);
-      call.on('status', connectionStatusCallback);
+      call.on('status', function(status){
+        let statusCode = 0;
+        if(status === undefined){
+
+        }else{
+          switch (status.code){
+            case 14:
+              statusCode = 0;
+              break;
+            default:
+          }
+        }
+        statuscb(statusCode);
+      });
       call.on('data',callback);
       return call;
   },
@@ -26,15 +39,14 @@ module.exports = {
         command.Data[idx] = 0;
       }
     }
-    //console.log(util.inspect(command, {depth: null}));
     try{
       const call = client.sendCommand(command, function (err,response){
         if(err){
           console.log("ERROR CALLBACK:");
         }else{
+
           console.log("command succesfuly sent");
         }
-
       });
     }catch(err){
       console.error("CATCH ERROR: " + err);
@@ -45,11 +57,11 @@ module.exports = {
     })*/
   },
 
-  enableLogger: function (client,bool) {
+  sendControl: function (client,data) {
     try{
-      const call = client.enableBool({check:bool},function (err,response) {
+      const call = client.controlServer({Command:data},function (err,response) {
         if(err){
-          console.log("ERROR LOG ENABLE" + err);
+          console.log("ERROR CONTROL SERVER" + err);
         }
       })
     }catch (err){
@@ -61,9 +73,9 @@ module.exports = {
       const call = client.ping({}, function (err,response){
         if(err){
           console.log("ERROR PING");
-          callback(0);
+          callback(null);
         }else{
-          callback(2);
+          callback(response['Status']);
         }
       });
     }catch(err){
