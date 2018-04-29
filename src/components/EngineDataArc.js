@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Arc, Circle, Text, Layer, Group, Stage } from 'react-konva';
 import StreamingPageManager from '../StreamingPageManager.js';
 
@@ -44,13 +44,12 @@ class EngineDataArc extends GenericParameterDisplay {
 
   genTachs () {
     let arr = [];
-    let xOriginal = 240;
+    let xOriginal = 110;
     let yOriginal = 90;
     let xOffset = 0;
     let yOffset = 0;
     let i = 0;
     this.props.parameters.forEach(function (paramName) {
-      console.log(arr);
       if (i >= 4 && i <= 7) {
         xOffset = 120;
         if (i === 4) {
@@ -112,7 +111,7 @@ class EngineDataArc extends GenericParameterDisplay {
 
   render () {
     return (
-      <Stage width={600} height={500}>
+      <Stage width={400} height={430}>
       <Layer>
       <SystemGraphic />
       </Layer>

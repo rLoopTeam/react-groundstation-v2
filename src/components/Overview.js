@@ -6,8 +6,8 @@ import GenericParameterLabel from './displaycomponents/GenericParameterLabel.js'
 import ConfirmButton from './buttons/ConfirmButton.js';
 import InfoPanel from './InfoPanel';
 import SystemGraphic from './SystemGraphic.js';
-import EngineDataGraphic from './EngineDataGraphic.js';
 import EngineDataArc from './EngineDataArc.js';
+import Speedometer from './Speedometer.js';
 import { Stage, Layer } from 'react-konva';
 import Konva from 'konva';
 import FuselageDisplay from './displaycomponents/FuselageDisplay.js';
@@ -63,7 +63,6 @@ class Overview extends Component {
     return (
       <div>
         <div>
-        <legend>Pod Health</legend>
         <div className="col-md-4">
           <div className="row">
             <div className="col-md-12">
@@ -114,14 +113,11 @@ class Overview extends Component {
           </LeftRightParameters>
         </div>
       </div>
-      <div className="row">
         <div className="col-md-4">
         <div className="row">
           <div className="col-md-12">
             <h3 className="section-title">Navigation</h3>
           </div>
-        </div>
-
           <div className="row">
             <div className="col-md-6">
               <div className="col-md-3">
@@ -171,14 +167,12 @@ class Overview extends Component {
                 height={250}
               />
             </div>
+            </div>
           </div>
-        </div>
-          <div className="row">
+          </div>
           <div className="col-md-4">
+          <div className="row">
             <h3 className="section-title">Power</h3>
-          </div>
-        </div>
-        <div className="col-md-4">
           <div className="row">
             <div className="col-md-4">
               <LineChart
@@ -217,18 +211,28 @@ class Overview extends Component {
               />
               </div>
             </div>
-          </div>
+              </div>
+              </div>
           <div className="row">
-          <div className="col-md-4">
-            <h3 className="section-title">Systems Overview</h3>
+          <div className="col-md-12">
+              <h3 className="section-title">Systems Overview</h3>
+              <div className="col-md-4">
+                </div>
+              <div className="col-md-4">
+                <div className="col-md-6">
+                  <EngineDataArc
+                    parameters={['Throttle Current RPM 1', 'Throttle Current RPM 2', 'Throttle Current RPM 3', 'Throttle Current RPM 4', 'Throttle Current RPM 5', 'Throttle Current RPM 6', 'Throttle Current RPM 7', 'Throttle Current RPM 8']}
+                    StreamingPageManager={this.state.streamManager}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <Speedometer
+                    parameters={['Accel 1 Current Velocity']}
+                    StreamingPageManager={this.state.streamManager}
+                  />
+                  </div>
+            </div>
           </div>
-        <div className="col-md-4">
-        <EngineDataArc
-          parameters={['Throttle Current RPM 1', 'Throttle Current RPM 2', 'Throttle Current RPM 3', 'Throttle Current RPM 4', 'Throttle Current RPM 5', 'Throttle Current RPM 6', 'Throttle Current RPM 7', 'Throttle Current RPM 8']}
-          StreamingPageManager={this.state.streamManager}
-        />
-        </div>
-        </div>
         </div>
         </div>
     );

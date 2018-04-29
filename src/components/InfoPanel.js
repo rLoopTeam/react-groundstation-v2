@@ -40,7 +40,7 @@ class InfoPanel extends Component {
 
   render () {
     return (
-      <footer className="navbar-default info-panel" >
+      <footer className="footer navbar-fixed-bottom navbar-default info-panel" >
         <div className="container-fluid">
           <StatsModal className="col-xs-2" isVisible={this.state.showConnectionModal} isVisibleHandler={this.toggleModalVisibility.bind(this)}/>
           <div className="InfoPanel-content">
