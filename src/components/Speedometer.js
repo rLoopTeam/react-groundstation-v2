@@ -49,11 +49,13 @@ class Speedometer extends GenericParameterDisplay {
     let yOffset = -45;
     let speedWidth = 0;
     let groundSpeed = 0;
+    let maxSpeed = 1000;
     let totalWidth = 200;
+
     let arr = [];
 
     this.props.parameters.forEach(function (paramName) {
-      speedWidth = (this.state.latestValue[paramName].value / totalWidth);
+      speedWidth = ((this.state.latestValue[paramName].value / maxSpeed) * 200);
 
       arr.push(
         < Group key={'Group ' + (paramName)} >
@@ -62,7 +64,7 @@ class Speedometer extends GenericParameterDisplay {
             parameter={paramName}
             x={xOriginal + xOffset}
             y={yOriginal + yOffset}
-            text={Number(this.getFormattedValue(paramName)).toFixed(2) + this.state.latestValue[paramName].units}
+            text={Number(this.getFormattedValue(paramName)).toFixed(2) + ' km/h'}
             fontSize={40}
           />
           <Rect
@@ -79,7 +81,7 @@ class Speedometer extends GenericParameterDisplay {
             parameter={paramName}
             x={xOriginal}
             y={yOriginal}
-            height={5}
+            height={10}
             width={speedWidth}
             fill={'darkgreen'}
           />
