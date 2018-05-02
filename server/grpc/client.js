@@ -19,7 +19,7 @@ class GrpcClient {
           break;
         case "serverControl": this.sendControl(m.Data);
           break;
-        case "pySimControl": ;
+        case "pySimControl": this.sendPySimControl(m.Data);
           break;
         case "getServerStatus": ;
           break;
@@ -63,13 +63,13 @@ class GrpcClient {
 
   sendControl(data){
     if(this.isConnected()){
-      impl.sendControl(client,data);
+      impl.sendControl(this.client,data);
     }
   }
 
   sendPySimControl(data){
     if(this.isConnected()){
-      impl.sendPySimControl(client,data);
+      impl.sendPySimControl(this.client,data);
     }
   }
 
@@ -104,8 +104,6 @@ class GrpcClient {
       };
       dataArray = [data0,data1,data2,data3,data4,data5]
     }
-    console.log("sending server info");
-
     process.send({Command: "serverInfo", Data:dataArray});
   }
 

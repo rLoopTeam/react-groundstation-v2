@@ -20,7 +20,7 @@ class BackendStatusDisplay extends GenericParameterDisplay {
   }
 
   getFormattedValue () {
-    let val = Boolean(this.state.value);
+    let val = !(this.state.value < 1);
     let formattedValue = 'Offline';
     if (this.state.stale === true) {
       formattedValue = 'Offline';
@@ -40,10 +40,6 @@ class BackendStatusDisplay extends GenericParameterDisplay {
     const value = this.getFormattedValue();
     let valueStyling = this.styles.default;
     let titleString = '';
-    if (this.props.minValue || this.props.maxValue) {
-      valueStyling = (value > this.props.maxValue) ? this.styles.warning : this.styles.nominal;
-      titleString = 'Min: ' + this.props.minValue + ', Max: ' + this.props.maxValue;
-    }
     return (
       <div className="Connection-status-display">
         <div className={'dot ' + value}></div>

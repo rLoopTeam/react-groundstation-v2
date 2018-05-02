@@ -533,7 +533,7 @@ module.exports = function (io, room, podCommands, commConfig, config, romIDScann
 
       'PySim:StopSim': () => {
         //const data = [0x1,0x0,0x0,0x0];
-        podCommands.PySimControl(3);
+        podCommands.PySimControl(2);
       },
 
       'PySim:StartLogging': (sensor) => {
@@ -548,7 +548,7 @@ module.exports = function (io, room, podCommands, commConfig, config, romIDScann
 
       'PySim:StartPusher': () => {
         //const data = [0x3,0x1,0x0,0x0];
-        podCommands.PySimControl();
+        podCommands.PySimControl(3);
       },
 
       'PySim:StopPusher': () => {

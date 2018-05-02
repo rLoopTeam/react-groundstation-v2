@@ -70,7 +70,7 @@ class Simulator_Control extends Component {
     e.preventDefault();
     socket.emit(`PySim:StopLogging`);
   }
-  startPush (e) {
+  startPusher (e) {
     e.preventDefault();
     socket.emit(`PySim:StartPusher`);
   }
@@ -125,10 +125,16 @@ class Simulator_Control extends Component {
         <div className="row">
           <div className="col-sm-5">
             <h3 className="section-title">Environment Control</h3>
-            <button type="button" className="btn btn-success" onClick={this.startPush.bind(this)} style={{margin: 10}}>Start Pusher</button>
+            <button type="button" className="btn btn-success" onClick={this.startPusher.bind(this)} style={{margin: 10}}>Start Pusher</button>
             <button type="button" className="btn btn-danger" onClick={this.stopPush.bind(this)} style={{margin: 10}}>Stop Pusher</button><br />
             <TextInput placeHolder={'atmospheric pressure'} onChange={this.atmosphereHandler.bind(this)}/>
             <button className="btn btn-success" onClick={this.changeAtmosphericPressure.bind(this)} style={{margin: 10}}>Change Pressure</button><br />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-5">
+            <h3 className="section-title">Pusher Controls</h3>
+            <button type="button" className="btn btn-danger" onClick={this.startPusher.bind(this)} style={{margin: 10}}>Start Pusher</button><br />
           </div>
         </div>
       </div>

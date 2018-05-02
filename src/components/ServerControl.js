@@ -65,6 +65,15 @@ class ServerControl extends Component {
     e.preventDefault();
     socket.emit('Grpc:StreamPackets');
   }
+
+  startDataStoreManager (e) {
+    e.preventDefault();
+    socket.emit(`Backend:StartDatastoreManager`);
+  }
+  stopDataStoreManager (e) {
+    e.preventDefault();
+    socket.emit(`Backend:StopDatastoreManager`);
+  }
   render () {
     let _this = this;
     // let borderStyle = {border: '2px solid black', borderRadius: '10px', padding: '10px', width: '50%'};
@@ -94,6 +103,13 @@ class ServerControl extends Component {
             <div className="row">
               <button className="btn btn-success" onClick={this.startStreaming.bind(this)} style={{margin: 10}}>Start Streaming</button><br />
             </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-5">
+            <h3 className="section-title">Service Control</h3>
+            <button type="button" className="btn btn-success" onClick={this.startDataStoreManager.bind(this)} style={{margin: 10}}>Start Datastore Manager</button>
+            <button type="button" className="btn btn-danger" onClick={this.stopDataStoreManager.bind(this)} style={{margin: 10}}>Stop Datastore Manager</button><br />
           </div>
         </div>
       </div>
