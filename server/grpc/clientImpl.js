@@ -56,6 +56,20 @@ module.exports = {
 
     }
   },
+
+  sendPySimControl: function (client,data) {
+    try{
+      console.log("sending py sim command: " + data);
+      const call = client.sendSimCommand({Command:data},function (err,response) {
+        if(err){
+          console.log("ERROR CONTROL SIM" + err);
+        }
+      })
+    }catch (err){
+
+    }
+  },
+
   ping: function(client,callback){
     try{
       const call = client.ping({}, function (err,response){
