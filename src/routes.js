@@ -30,6 +30,7 @@ import LandingGear from './components/LandingGear.js';
 import TrackDb from './components/trackdb.js';
 import Simulator from './components/SimControl';
 import ServerControl from './components/ServerControl';
+import AI_Project from './components/AI_Project';
 
 const APP_ROUTES = (
   <Route path="/" component={MainLayout}>
@@ -66,6 +67,7 @@ const APP_ROUTES = (
     <Route path="trackdb" component={TrackDb} />
     <Route path="Simulator" component={Simulator} />
     <Route path="Backend" component={ServerControl} />
+    <Route path="AI_Project" component={AI_Project}/>
   </Route>
 );
 
