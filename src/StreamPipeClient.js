@@ -59,7 +59,9 @@ class DataStreamClient {
 
   handleStoppedBurst (msg) {
     if (this.RequestedParameters.indexOf(msg) === -1) {
-      return;
+      if (self.requestedParams === undefined) {
+        return;
+      }
     }
 
     console.warn(`${msg} was stopped but we're still listening to it.`);
