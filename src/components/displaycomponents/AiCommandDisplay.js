@@ -33,20 +33,23 @@ class AiCommandDisplay extends GenericParameterDisplay {
   getFormattedValue () {
     let val = Math.trunc(this.state.value);
     let formattedValue = 'None';
-    /*
-   if (this.state.stale === true) {
-     formattedValue = 'None';
-   } else {
-     formattedValue = this.commandlist[val];
-   } */
-    formattedValue = this.commandlist[val];
+    if (this.state.stale === true) {
+      formattedValue = 'None';
+    } else {
+      formattedValue = this.commandlist[val];
+    }
+   /*
+   formattedValue = this.commandlist[val];
+  */
     return formattedValue;
   }
 
   render () {
     const value = this.getFormattedValue();
     return (
-      <div className={'statusText'}>{value}</div>
+      <div>
+        <span><input type="text" className="form-control" value={value} readOnly={this.isReadOnly()} /></span>
+      </div>
     );
   }
 }
